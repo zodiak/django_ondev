@@ -1,0 +1,116 @@
+{% extends "admin/index.html" %} 
+{% load i18n admin_tools_menu_tags %}
+
+{% block title %}{% trans 'Backups' %} | {% trans 'Django site admin' %}{% endblock %}
+{% block dashboard_css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{{ MEDIA_URL }}django_admin/css/changelists.css" type="text/css" media="screen, projection"/>
+	<link rel="stylesheet" href="{{ MEDIA_URL }}django_backup/css/styles.css" type="text/css"/>
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	<script type="text/javascript" src="{{ MEDIA_URL }}django_backup/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}django_backup/js/scripts.js"></script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="../">
+        	{% trans 'Home' %}
+		</a>
+		&rsaquo; {% trans 'Backups' %}
+	</div>
+{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+<div id="content-main">
+	<div id="changelist" class="module">
+		<div id="toolbar">
+			<div id="changelist-search">
+				<div><!-- DIV needed for valid HTML -->
+					<table>
+						<tr>
+							<td>
+								<form method="post" action="{% url django_backup:backup %}">
+									{% csrf_token %}
+									<input type="submit" value="Создать резервную копию" class="action">
+								</form>
+							</td>
+							<td>
+								<form method="post" action="{% url django_backup:delete_selected %}">
+									{% csrf_token %}
+									<input type="submit" value="Удалить выбранные" class="action" id="delete-selected">
+									<div id="selected_items" style="display:none;">
+									</div>
+								</form>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div id="changelist-form">
+			<table cellspacing="0" id="result_list">
+				<col >
+				<col >
+				<col >
+				<col width="150px">
+				<col width="150px">
+
+				<thead>
+					<tr>
+						<th class="action-checkbox-column">
+							<input type="checkbox" id="action-toggle" style="display: inline;">
+						</th>
+						<th>Имя</th>
+						<th>Размер</th>
+						<th colspan="2">Действия</th>
+					</tr>
+				</thead>
+				
+				<tbody id="list-rows">
+				{% for backup, filesize in backups reversed %}
+					<tr class="{% cycle 'row1' 'row2' %}">
+						<td>
+							<input type="checkbox" name="selected_action" value="{{ backup }}" class="action-select">
+						</td>
+						<th><a href="{% url django_backup:download file=backup%}">{{ backup }}</a></th>
+						<td>{{ filesize|filesizeformat }}</td>
+						<td class="action-restore">
+							<form method="post" action="{% url django_backup:restore %}">
+								{% csrf_token %}
+								<input type="hidden" name="target" value="{{ backup }}">
+								<input type="submit" value="Восстановить">
+							</form>
+						</td>
+						<td class="action-delete">
+							<form method="post" action="{% url django_backup:delete %}">
+								{% csrf_token %}
+								<input type="hidden" name="target" value="{{ backup }}">
+								<input type="submit" value="Удалить">
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+
+			<p class="paginator">Доступно резервных копий: {{ backups|length }}</p>
+		</div>
+	</div>
+</div>
+  
+  
+  
+
+
+
+
+
+{% endblock %}

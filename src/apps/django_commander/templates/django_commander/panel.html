@@ -1,0 +1,35 @@
+<input type="hidden" name="path" value="{{ path }}" />
+<h2>
+	<a href=""><img src="{{ MEDIA_URL }}django_commander/img/home2.png" alt="Home"></a>/
+	<a href="folder">folder</a>/
+	<a href="folder/folder">folder</a>/
+</h2>
+<div class="dashboard-module-content panel-content">
+	<table>
+		<col width="100%" />
+		<col />
+		<col />
+		<col />
+		<col />
+		<tr>
+			<th>Имя</th>
+			<th>Тип</th>
+			<th>Изменен</th>
+			<th>Размер</th>
+			<th>Права</th>
+		</tr>
+		{% for item in items %}
+		<tr>
+			<td class="{{ item.type }} {{ item.ext }}"><a {% if not item.isdir %}href="view/{{ item.url }}" onclick="window.open(this.href);return false;"{% else %}href="{{ item.url }}"{% endif %}>{{ item.name }}</a></td>
+			<td>{{ item.ext }}</td>
+			<td><nobr>{{ item.modified|date:"SHORT_DATE_FORMAT" }} {{ item.modified|time:"H:i" }}</nobr></td>
+			<td><nobr>{{ item.size|filesizeformat }}</nobr></td>
+			<td class="nowrap">{{ item.rights }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+<hr />
+<div class="info">
+	<p>Итого: ...</td>
+</div>

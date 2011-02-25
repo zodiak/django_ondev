@@ -1,0 +1,146 @@
+{% extends "admin/index.html" %} 
+{% load i18n admin_tools_menu_tags %}
+
+{% block title %}{% trans 'File commander' %} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block dashboard_css %}
+	{{ block.super }}
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	<script type="text/javascript" src="{{ MEDIA_URL }}django_commander/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}django_commander/js/codemirror/js/codemirror.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			var editor = new CodeMirror.fromTextArea('code', {
+				parserfile: ["../contrib/python/js/parsepython.js"],
+				stylesheet: "{{ MEDIA_URL }}django_commander/js/codemirror/contrib/python/css/pythoncolors.css",
+				path: "{{ MEDIA_URL }}django_commander/js/codemirror/js/",
+				content: document.getElementById("code").value,
+				lineNumbers: true,
+				textWrapping: false,
+				indentUnit: 4,
+				parserConfig: {'pythonVersion': 2, 'strictErrors': true},
+				tabMode: "spaces"
+			}); 
+		});
+	</script>
+	<style type="text/css">
+      .CodeMirror-line-numbers {
+        width: 2.2em;
+        color: #aaa;
+        background-color: #eee;
+        text-align: right;
+        padding: .4em;
+        margin: 0;
+        font-family: monospace;
+        font-size: 10pt;
+        line-height: 1.1em;
+      }
+      
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="../">
+        	{% trans 'Home' %}
+		</a>
+		&rsaquo; {% trans 'File commander' %}
+	</div>
+{% endblock %}
+
+{% block content %}
+<div>
+<form id="editfield" method="post" action="">
+
+<textarea id="code" style="width:100%;height:100%;display:block;">
+# Literals
+1234
+0.0e101
+.123
+0b01010011100
+0o01234567
+0x0987654321abcdef
+# Error Literals
+.0b000
+0.0e
+0e
+
+# String Literals
+'For\''
+"God\""
+"""so loved
+the world"""
+'''that he gave
+his only begotten\' '''
+'that whosoever believeth \
+in him'
+''
+
+# Identifiers
+__a__
+a.b
+a.b.c
+# Error Identifiers
+a.
+
+# Operators
++ - * / % & | ^ ~ < >
+== != <= >= <> << >> // **
+and or not in is
+
+# Delimiters
+() [] {} , : ` = ; @ . # At-signs and periods require context
++= -= *= /= %= &= |= ^=
+//= >>= <<= **=
+
+# Keywords
+as assert break class continue def del elif else except
+finally for from global if import lambda pass raise
+return try while with yield
+
+# Python 2 Keywords (otherwise Identifiers)
+exec print
+
+# Python 3 Keywords (otherwise Identifiers)
+nonlocal
+
+# Types
+bool classmethod complex dict enumerate float frozenset int list object
+property reversed set slice staticmethod str super tuple type
+
+# Python 2 Types (otherwise Identifiers)
+basestring buffer file long unicode xrange
+
+# Python 3 Types (otherwise Identifiers)
+bytearray bytes filter map memoryview open range zip
+
+# Example Strict Errors
+def doesNothing():
+   pass # indentUnit is set to 4 but this line is indented 3
+
+# Some Example code
+import os
+from package import ParentClass
+
+@nonsenseDecorator
+def doesNothing():
+    pass
+
+class ExampleClass(ParentClass):
+    @staticmethod
+    def example(inputStr):
+        a = list(inputStr)
+        a.reverse()
+        return ''.join(a)
+
+    def __init__(self, mixin = 'Hello'):
+        self.mixin = mixin
+
+</textarea>
+</form>
+</div>
+
+{% endblock %}

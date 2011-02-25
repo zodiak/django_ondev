@@ -1,0 +1,40 @@
+{% extends "admin/index.html" %} 
+{% load i18n admin_tools_menu_tags %}
+
+{% block title %}{% trans 'File commander' %} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block dashboard_css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{{ MEDIA_URL }}django_commander/css/commander.css" type="text/css" media="screen, projection"/>
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	<script type="text/javascript" src="{{ MEDIA_URL }}django_commander/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}django_commander/js/jquery.history.js"></script>
+	<script type="text/javascript">
+		var panel_url = '{% url django_commander:panel %}';
+	</script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}django_commander/js/commander.js"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="../">
+        	{% trans 'Home' %}
+		</a>
+		&rsaquo; {% trans 'File commander' %}
+	</div>
+{% endblock %}
+
+{% block content %}
+<div id="commander">
+	<div id="left" class="dashboard-module panel">
+		
+	</div>
+
+	<div id="right" class="dashboard-module panel">
+		
+	</div>
+</div>
+{% endblock %}

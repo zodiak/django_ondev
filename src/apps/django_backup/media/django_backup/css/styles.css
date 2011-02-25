@@ -1,0 +1,7 @@
+#toolbar table {width:auto;}
+#toolbar table td {padding:0px 10px;margin:0px;border:none;}
+#toolbar table tbody td:first-child {border-right:0px none;}
+#toolbar table tbody td {border:0px none;}
+#changelist td.action-restore {border-right:none;}
+#changelist td.action-delete {border-left:none;}
+td.action-restore input, td.action-delete input {font-size:11px;padding:1px 2px;}

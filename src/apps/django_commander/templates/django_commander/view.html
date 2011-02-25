@@ -1,0 +1,27 @@
+{% extends "admin/index.html" %} 
+{% load i18n admin_tools_menu_tags %}
+
+{% block title %}{% trans 'File commander' %} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block dashboard_css %}
+	{{ block.super }}
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+    <style type="text/css">.highlight pre{font-size:14px;}{{ css }}</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="../">
+        	{% trans 'Home' %}
+		</a>
+		&rsaquo; {% trans 'File commander' %}
+	</div>
+{% endblock %}
+
+{% block content %}
+<p><a href="{% url django_commander:edit filename=filename %}">Edit</a></p>
+<div id="view">{% autoescape off %}{{ html }}{% endautoescape %}</div>
+{% endblock %}

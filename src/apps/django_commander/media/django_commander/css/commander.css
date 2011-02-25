@@ -1,0 +1,33 @@
+.clearfix:after {content: ".";display: block;clear: both;visibility: hidden;line-height: 0;height: 0;}
+.clearfix {display: inline-block;}
+html[xmlns] .clearfix {display: block;}
+* html .clearfix {height: 1%;}
+
+.panel {width:47%;margin:1%;padding:0px;float:left;}
+.panel table {width:100%;}
+.panel .panel-content {height:300px;overflow-y:scroll;}
+
+.panel .panel-content .nowrap {white-space: nowrap;}
+
+.panel-content td {padding-left:20px;}
+.panel-content td.file {background:url(icons/file.png) no-repeat transparent;}
+.panel-content td.dir {background:url(icons/folder.png) no-repeat transparent;}
+
+.panel-content td.txt {background-image:url(icons/file-text.png);}
+.panel-content td.py {background-image:url(icons/script-code.png);}
+.panel-content td.pyc {background-image:url(icons/file-bin.png);}
+.panel-content td.htm,
+.panel-content td.html {background-image:url(icons/file-html.png);}
+.panel-content td.gif,
+.panel-content td.jpg,
+.panel-content td.jpeg,
+.panel-content td.png {background-image:url(icons/image.png);}
+
+.panel-content td.7z,
+.panel-content td.bz2,
+.panel-content td.cab,
+.panel-content td.gz,
+.panel-content td.rar,
+.panel-content td.tar,
+.panel-content td.zip {background-image:url(icons/file-archive.png);}
+
