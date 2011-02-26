@@ -17,3 +17,7 @@ django-admin-tools
 django-appmedia
 django-reversion
 pygments
+django-staticfiles
+django-haystack
+fabric
+whoosh

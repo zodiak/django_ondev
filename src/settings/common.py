@@ -3,57 +3,43 @@ from os import path
 
 PROJECT_DIR = path.abspath(path.join(path.dirname(__file__), '..'))
 
+# need to think how to use cache...
+# CACHE_BACKEND = 'locmem:///'
+
 ADMINS = (
     ('Zodiak', 'DesZodiak@gmail.com'),
 )
-
 MANAGERS = ADMINS
 
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
 TIME_ZONE = 'Europe/Moscow'
-
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'ru-RU'
 
 SITE_ID = 1
 
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
 USE_I18N = True
-
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
 USE_L10N = True
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
+MEDIA_URL = '/media/static/'
 MEDIA_ROOT = path.join(PROJECT_DIR, 'media')
+ADMIN_MEDIA_PREFIX = '/media/static/admin/'
+ADMIN_TOOLS_MEDIA_URL = MEDIA_URL
+STATIC_URL = '/static/'
+STATIC_ROOT = path.join(MEDIA_ROOT, 'static')
+STATICFILES_FINDERS = (
+   #'staticfiles.finders.FileSystemFinder', 
+   'staticfiles.finders.AppDirectoriesFinder',
+   'django_mediacompressor.finders.LegacyAppDirectoriesFinder',
+   #'staticfiles.finders.DefaultStorageFinder',
+)
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media/'
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/admin/'
+APPEND_SLASH = True
 
-# Make this unique, and don't share it with anybody.
 SECRET_KEY = '*#hb5d+_ml%f*4)bby((ka#2b-!h7m0ng(chx6tb@c(l&z+55f'
 
-# List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS =(
@@ -62,15 +48,23 @@ TEMPLATE_CONTEXT_PROCESSORS =(
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
+    'cms.context_processors.media',
     'django.core.context_processors.request',
 )
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # i don't use multilangual in this way
+    # 'cms.middleware.multilingual.MultilingualURLMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'cms.middleware.media.PlaceholderMediaMiddleware', 
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
     'sentry.client.middleware.Sentry404CatchMiddleware',
 )
 
@@ -83,11 +77,13 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'admin_tools',
+    # django-admin-tools app
+    'admin_tools', # need to collect media files
     'admin_tools.theming',
     'admin_tools.menu',
     'admin_tools.dashboard',
 
+    # django default apps
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -96,22 +92,54 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     
+    # django-cms apps
+    'cms',
+    'publisher',
+    'menus',
+    'mptt',
+    
+    # django-cms standard plugins
+    'cms.plugins.text',
+    'cms.plugins.picture',
+    'cms.plugins.file',
+    'cms.plugins.flash',
+    'cms.plugins.link',
+    'cms.plugins.snippet',
+    'cms.plugins.googlemap',
+    'cms.plugins.teaser',
+    'cms.plugins.video',
+    'cms.plugins.twitter',
+    'cms.plugins.inherit',
+    
+    # django-filer & django-cms filer plugin
+    #'filer',
+    #'easy_thumbnails',    
+    #'cmsplugin_filer_file',
+    #'cmsplugin_filer_folder',
+    #'cmsplugin_filer_image',
+    #'cmsplugin_filer_teaser',
+    #'cmsplugin_filer_video',
+    
     'south',
+    
+    # django-sentry app
     'indexer',
     'paging',
     'sentry',
     'sentry.client',
-    'appmedia',
+    # 'appmedia',
     
+    'staticfiles',
+
+    # need to collect media from this project
+    'project',
+
+    # my own apps to improove cms
+    # to use command 'compressmedia'
+    'django_mediacompressor',
     #'admin_tools_fix',
     'django_backup',
     'django_commander',
-    
-    # media link for this project
-    'project',
-    
-    # to use command 'compressmedia'
-    'django_mediacompressor',
 )
 
 
@@ -122,3 +150,35 @@ BACKUP_ROOT = PROJECT_DIR
 ADMIN_TOOLS_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'dashboard.CustomAppIndexDashboard'
 ADMIN_TOOLS_MENU = 'menu.CustomMenu'
+
+
+
+# django-cms settings
+gettext = lambda s: s
+
+LANGUAGE_CODE = 'ru-RU'
+
+LANGUAGES = (
+    ('ru', gettext('Russian')),
+)
+
+CMS_TEMPLATES = (
+    ('col_two.html', gettext('two columns')),
+    ('col_three.html', gettext('three columns')),
+    ('nav_playground.html', gettext('navigation examples')),
+)
+
+CMS_SOFTROOT = True
+CMS_MODERATOR = True
+CMS_PERMISSION = True
+CMS_REDIRECTS = True
+CMS_SEO_FIELDS = True
+CMS_FLAT_URLS = False
+CMS_MENU_TITLE_OVERWRITE = True
+CMS_HIDE_UNTRANSLATED = False
+CMS_URL_OVERWRITE = True
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
