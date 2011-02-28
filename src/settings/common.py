@@ -19,12 +19,15 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 
-MEDIA_URL = '/media/static/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = path.join(PROJECT_DIR, 'media')
+
+STATIC_URL = '/media/static/'
+STATIC_ROOT = path.join(MEDIA_ROOT, 'static')
+
 ADMIN_MEDIA_PREFIX = '/media/static/admin/'
 ADMIN_TOOLS_MEDIA_URL = MEDIA_URL
-STATIC_URL = '/static/'
-STATIC_ROOT = path.join(MEDIA_ROOT, 'static')
+
 STATICFILES_FINDERS = (
    #'staticfiles.finders.FileSystemFinder', 
    'staticfiles.finders.AppDirectoriesFinder',
@@ -99,26 +102,26 @@ INSTALLED_APPS = (
     'mptt',
     
     # django-cms standard plugins
-    'cms.plugins.text',
-    'cms.plugins.picture',
-    'cms.plugins.file',
-    'cms.plugins.flash',
-    'cms.plugins.link',
-    'cms.plugins.snippet',
-    'cms.plugins.googlemap',
-    'cms.plugins.teaser',
-    'cms.plugins.video',
-    'cms.plugins.twitter',
-    'cms.plugins.inherit',
+    #'cms.plugins.text',
+    #'cms.plugins.picture',
+    #'cms.plugins.file',
+    #'cms.plugins.flash',
+    #'cms.plugins.link',
+    #'cms.plugins.snippet',
+    #'cms.plugins.googlemap',
+    #'cms.plugins.teaser',
+    #'cms.plugins.video',
+    #'cms.plugins.twitter',
+    #'cms.plugins.inherit',
     
     # django-filer & django-cms filer plugin
-    #'filer',
-    #'easy_thumbnails',    
-    #'cmsplugin_filer_file',
-    #'cmsplugin_filer_folder',
-    #'cmsplugin_filer_image',
-    #'cmsplugin_filer_teaser',
-    #'cmsplugin_filer_video',
+    'filer',
+    'easy_thumbnails',    
+    'cmsplugin_filer_file',
+    'cmsplugin_filer_folder',
+    'cmsplugin_filer_image',
+    'cmsplugin_filer_teaser',
+    'cmsplugin_filer_video',
     
     'south',
     
@@ -127,6 +130,8 @@ INSTALLED_APPS = (
     'paging',
     'sentry',
     'sentry.client',
+    
+    # dont know who needs it
     # 'appmedia',
     
     'staticfiles',
@@ -142,11 +147,15 @@ INSTALLED_APPS = (
     'django_commander',
 )
 
+FILER_IS_PUBLIC_DEFAULT = True
+FILER_STATICMEDIA_PREFIX = '/media/static/filer/'
+FILER_PUBLICMEDIA_PREFIX = 'uploads/public'
+FILER_PRIVATEMEDIA_PREFIX = 'uploads/private'
 
 BACKUP_STORAGE = path.join(PROJECT_DIR, 'backups')
 BACKUP_ROOT = PROJECT_DIR
 
-
+ADMIN_TOOLS_MEDIA_URL = '/media/static/'
 ADMIN_TOOLS_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'dashboard.CustomAppIndexDashboard'
 ADMIN_TOOLS_MENU = 'menu.CustomMenu'
@@ -154,6 +163,8 @@ ADMIN_TOOLS_MENU = 'menu.CustomMenu'
 
 
 # django-cms settings
+CMS_MEDIA_URL = '/media/static/cms/'
+
 gettext = lambda s: s
 
 LANGUAGE_CODE = 'ru-RU'

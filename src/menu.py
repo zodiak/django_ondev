@@ -14,6 +14,10 @@ class CustomMenu(Menu):
     def __init__(self, **kwargs):
         Menu.__init__(self, **kwargs)
         self.children.append(items.MenuItem(
+            title=_('site'),
+            url='/'
+        ))
+        self.children.append(items.MenuItem(
             title=_('Dashboard'),
             url=reverse('admin:index')
         ))
