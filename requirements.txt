@@ -7,8 +7,6 @@ feedparser
 django-registration
 django-profiles
 easy-thumbnails
-django-filer
-cmsplugin-filer
 django-debug-toolbar
 django-extensions
 django-chart-tools

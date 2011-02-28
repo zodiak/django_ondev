@@ -102,26 +102,19 @@ INSTALLED_APPS = (
     'mptt',
     
     # django-cms standard plugins
-    #'cms.plugins.text',
-    #'cms.plugins.picture',
-    #'cms.plugins.file',
-    #'cms.plugins.flash',
-    #'cms.plugins.link',
-    #'cms.plugins.snippet',
-    #'cms.plugins.googlemap',
-    #'cms.plugins.teaser',
-    #'cms.plugins.video',
-    #'cms.plugins.twitter',
-    #'cms.plugins.inherit',
+    'cms.plugins.text',
+    'cms.plugins.picture',
+    'cms.plugins.file',
+    'cms.plugins.flash',
+    'cms.plugins.link',
+    'cms.plugins.snippet',
+    'cms.plugins.googlemap',
+    'cms.plugins.teaser',
+    'cms.plugins.video',
+    'cms.plugins.twitter',
+    'cms.plugins.inherit',
     
-    # django-filer & django-cms filer plugin
-    'filer',
     'easy_thumbnails',    
-    'cmsplugin_filer_file',
-    'cmsplugin_filer_folder',
-    'cmsplugin_filer_image',
-    'cmsplugin_filer_teaser',
-    'cmsplugin_filer_video',
     
     'south',
     
@@ -147,10 +140,6 @@ INSTALLED_APPS = (
     'django_commander',
 )
 
-FILER_IS_PUBLIC_DEFAULT = True
-FILER_STATICMEDIA_PREFIX = '/media/static/filer/'
-FILER_PUBLICMEDIA_PREFIX = 'uploads/public'
-FILER_PRIVATEMEDIA_PREFIX = 'uploads/private'
 
 BACKUP_STORAGE = path.join(PROJECT_DIR, 'backups')
 BACKUP_ROOT = PROJECT_DIR
